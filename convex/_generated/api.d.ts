@@ -10,6 +10,8 @@
 
 import type * as explanation from "../explanation.js";
 import type * as mutations from "../mutations.js";
+import type * as queries from "../queries.js";
+import type * as utils_text from "../utils/text.js";
 
 import type {
   ApiFromModules,
@@ -20,6 +22,8 @@ import type {
 declare const fullApi: ApiFromModules<{
   explanation: typeof explanation;
   mutations: typeof mutations;
+  queries: typeof queries;
+  "utils/text": typeof utils_text;
 }>;
 
 /**

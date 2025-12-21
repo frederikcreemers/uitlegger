@@ -8,10 +8,9 @@ export const createExplanation = internalMutation({
     explanation: v.string(),
     exampleSentences: v.array(v.string()),
     status: v.union(v.literal("generating"), v.literal("complete")),
-    createdAt: v.number(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.insert("explanation", args);
+    return await ctx.db.insert("explanations", args);
   },
 });
 
@@ -21,7 +20,6 @@ export const createTranslation = internalMutation({
     languageCode: v.string(),
     explanation: v.string(),
     exampleSentences: v.array(v.string()),
-    createdAt: v.number(),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("translations", args);
@@ -33,7 +31,6 @@ export const createExplanationToken = internalMutation({
     explanationId: v.id("explanations"),
     token: v.string(),
     sequence: v.number(),
-    createdAt: v.number(),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("explanationTokens", args);
@@ -45,9 +42,21 @@ export const createTranslationToken = internalMutation({
     translationId: v.id("translations"),
     token: v.string(),
     sequence: v.number(),
-    createdAt: v.number(),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("translationTokens", args);
+  },
+});
+
+export const finishExplanation = internalMutation({
+  args: {
+    explanationId: v.id("explanations"),
+    explanation: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.explanationId, {
+      explanation: args.explanation,
+      status: "complete",
+    });
   },
 });
