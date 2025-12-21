@@ -17,15 +17,15 @@ export default defineSchema({
     exampleSentences: v.array(v.string()),
   }).index("by_explanation_language", ["explanationId", "languageCode"]),
 
-  explanationTokens: defineTable({
+  explanationChunks: defineTable({
     explanationId: v.id("explanations"),
-    token: v.string(),
+    chunk: v.string(),
     sequence: v.number(),
   }).index("by_explanation_sequence", ["explanationId", "sequence"]),
 
-  translationTokens: defineTable({
+  translationChunks: defineTable({
     translationId: v.id("translations"),
-    token: v.string(),
+    chunk: v.string(),
     sequence: v.number(),
   }).index("by_translation_sequence", ["translationId", "sequence"]),
 });

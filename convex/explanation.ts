@@ -66,9 +66,9 @@ export const generateExplanation = internalAction({
 
       result += chunk.choices[0].delta.content!;
 
-      await ctx.runMutation(internal.mutations.createExplanationToken, {
+      await ctx.runMutation(internal.mutations.createExplanationChunk, {
         explanationId: args.explanationId,
-        token: chunk.choices[0].delta.content!,
+        chunk: chunk.choices[0].delta.content!,
         sequence: sequence++,
       });
     }

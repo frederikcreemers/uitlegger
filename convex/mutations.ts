@@ -26,25 +26,25 @@ export const createTranslation = internalMutation({
   },
 });
 
-export const createExplanationToken = internalMutation({
+export const createExplanationChunk = internalMutation({
   args: {
     explanationId: v.id("explanations"),
-    token: v.string(),
+    chunk: v.string(),
     sequence: v.number(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.insert("explanationTokens", args);
+    return await ctx.db.insert("explanationChunks", args);
   },
 });
 
-export const createTranslationToken = internalMutation({
+export const createTranslationChunk = internalMutation({
   args: {
     translationId: v.id("translations"),
-    token: v.string(),
+    chunk: v.string(),
     sequence: v.number(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.insert("translationTokens", args);
+    return await ctx.db.insert("translationChunks", args);
   },
 });
 
