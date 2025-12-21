@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "./pages/Home";
-
-function ExplanationPage() {
-  return <div>Explanation page placeholder</div>;
-}
+import ExplanationPage from "./pages/ExplanationPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/uitleg/:languageCode/:slug" element={<ExplanationPage />} />
+        <Route
+          path="/uitleg/:languageCode/:slug"
+          element={<ExplanationPage />}
+        />
       </Routes>
     </BrowserRouter>
   );
