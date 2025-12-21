@@ -36,7 +36,7 @@ export const explain = action({
       explanation
     );
 
-    ctx.scheduler.runAfter(0, internal.explanation.generateExplanation, {
+    await ctx.scheduler.runAfter(0, internal.explanation.generateExplanation, {
       explanationId: id,
       query: query,
     });

@@ -1,14 +1,29 @@
 import { useState } from "react";
+import { useAction } from "convex/react";
+import { useNavigate } from "react-router";
+import { api } from "../../convex/_generated/api";
 import LanguagePicker from "../components/LanguagePicker";
 import { getTranslation, type Language } from "../lib/localizations";
 
 export default function Home() {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("en");
   const [searchTerm, setSearchTerm] = useState("");
+  const explain = useAction(api.explanation.explain);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Handle search
+    if (!searchTerm.trim()) return;
+
+    try {
+      const result = await explain({
+        query: searchTerm,
+        languageCode: selectedLanguage,
+      });
+      navigate(`/uitleg/${selectedLanguage}/${result.slug}`);
+    } catch (error) {
+      console.error("Error explaining:", error);
+    }
   };
 
   return (
