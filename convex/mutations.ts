@@ -58,5 +58,16 @@ export const finishExplanation = internalMutation({
       explanation: args.explanation,
       status: "complete",
     });
+
+    const chunks = await ctx.db
+      .query("explanationChunks")
+      .withIndex("by_explanation_sequence", (q) =>
+        q.eq("explanationId", args.explanationId)
+      )
+      .collect();
+
+    for (const chunk of chunks) {
+      await ctx.db.delete(chunk._id);
+    }
   },
 });
