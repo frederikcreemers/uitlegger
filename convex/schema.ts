@@ -15,6 +15,7 @@ export default defineSchema({
     languageCode: v.string(),
     explanation: v.string(),
     exampleSentences: v.array(v.string()),
+    status: v.union(v.literal("generating"), v.literal("complete")),
   }).index("by_explanation_language", ["explanationId", "languageCode"]),
 
   explanationChunks: defineTable({

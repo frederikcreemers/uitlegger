@@ -20,6 +20,7 @@ export const createTranslation = internalMutation({
     languageCode: v.string(),
     explanation: v.string(),
     exampleSentences: v.array(v.string()),
+    status: v.union(v.literal("generating"), v.literal("complete")),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("translations", args);
@@ -63,6 +64,30 @@ export const finishExplanation = internalMutation({
       .query("explanationChunks")
       .withIndex("by_explanation_sequence", (q) =>
         q.eq("explanationId", args.explanationId)
+      )
+      .collect();
+
+    for (const chunk of chunks) {
+      await ctx.db.delete(chunk._id);
+    }
+  },
+});
+
+export const finishTranslation = internalMutation({
+  args: {
+    translationId: v.id("translations"),
+    explanation: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.translationId, {
+      explanation: args.explanation,
+      status: "complete",
+    });
+
+    const chunks = await ctx.db
+      .query("translationChunks")
+      .withIndex("by_translation_sequence", (q) =>
+        q.eq("translationId", args.translationId)
       )
       .collect();
 
