@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useQuery, useAction } from "convex/react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { languages, type Language } from "../lib/localizations";
 import NavBar from "../components/NavBar";
+
+const LANGUAGE_STORAGE_KEY = "uitlegger_selected_language";
 
 function PendingExplanation({
   explanationId,
@@ -35,6 +37,7 @@ export default function ExplanationPage() {
     slug: string;
     languageCode: string;
   }>();
+  const navigate = useNavigate();
   const explanation = useQuery(api.queries.getExplanationPublic, {
     slug: slug!,
   });
@@ -46,11 +49,20 @@ export default function ExplanationPage() {
     api.explanation.addMissingTranslation
   );
 
+  const urlLanguage = (languageCode || "en") as Language;
+
   useEffect(() => {
     if (explanation && !translation && slug && languageCode) {
       addMissingTranslation({ slug, languageCode });
     }
   }, [explanation, translation, slug, languageCode, addMissingTranslation]);
+
+  const handleLanguageChange = (language: Language) => {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    if (slug) {
+      navigate(`/uitleg/${language}/${slug}`);
+    }
+  };
 
   if (!explanation) {
     return (
@@ -70,7 +82,11 @@ export default function ExplanationPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <NavBar />
+      <NavBar
+        selectedLanguage={urlLanguage}
+        onLanguageChange={handleLanguageChange}
+        saveToStorage={false}
+      />
       <div className="px-4 py-12">
         <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
