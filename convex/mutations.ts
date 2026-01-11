@@ -96,3 +96,27 @@ export const finishTranslation = internalMutation({
     }
   },
 });
+
+export const addExampleSentences = internalMutation({
+  args: {
+    explanationId: v.id("explanations"),
+    exampleSentences: v.array(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.explanationId, {
+      exampleSentences: args.exampleSentences,
+    });
+  },
+});
+
+export const addTranslatedExampleSentences = internalMutation({
+  args: {
+    translationId: v.id("translations"),
+    exampleSentences: v.array(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.translationId, {
+      exampleSentences: args.exampleSentences,
+    });
+  },
+});

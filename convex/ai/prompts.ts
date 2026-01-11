@@ -32,6 +32,33 @@ export function translationPrompt(query: string, languageCode: string) {
 
   Try to limit the explanation to one paragraph.
   Do not example sentences, unless it is necessary for the explanation. we will create examples later.
+  `;
+}
 
+export function exampleSentencePrompt(query: string) {
+  return `
+  Give 10 example sentences in Dutch for the Dutch word or phrase: ${query}.
+  The example sentences should be short and concise, and use simple language.
+  If it's a verb, make sure to include different conjugations and tenses.
+  If there are multiple meanings, make sure to include all of them.
+  Return the sentences as a JSON array of strings.
+  `;
+}
+
+export function exampleSentenceTranslationPrompt(
+  query: string,
+  sentences: string[],
+  languageCode: string
+) {
+  const languageName = languages.find(
+    (language) => language.code === languageCode
+  )?.englishName;
+
+  return `
+    Translate the following sentences into ${languageName}:
+
+    ${sentences.map((sentence) => `- ${sentence}`).join("\n")}
+
+    Return the translations as a JSON array of strings.
   `;
 }

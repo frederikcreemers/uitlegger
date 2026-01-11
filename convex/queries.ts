@@ -13,6 +13,15 @@ export const getExplanation = internalQuery({
   },
 });
 
+export const getExplanationById = internalQuery({
+  args: {
+    explanationId: v.id("explanations"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.explanationId);
+  },
+});
+
 export const getExplanationPublic = query({
   args: {
     slug: v.string(),

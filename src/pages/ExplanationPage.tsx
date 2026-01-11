@@ -62,6 +62,11 @@ export default function ExplanationPage() {
   const languageInfo = languages.find((lang) => lang.code === languageCode);
   const translationLanguageName = languageInfo?.nameInLanguage || "Translation";
 
+  const exampleSentences = explanation.exampleSentences || [];
+  const translatedExampleSentences = translation?.exampleSentences || [];
+  const maxExamples = Math.max(exampleSentences.length, translatedExampleSentences.length);
+  const hasExamples = maxExamples > 0;
+
   return (
     <div className="min-h-screen bg-white px-4 py-12">
       <div className="max-w-6xl mx-auto">
@@ -98,6 +103,37 @@ export default function ExplanationPage() {
             )}
           </div>
         </div>
+        {hasExamples && (
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">Voorbeelden / Examples</h3>
+            <div className="border border-gray-300 rounded-lg overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300">
+                      Nederlands
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300">
+                      {translationLanguageName}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: maxExamples }).map((_, index) => (
+                    <tr key={index} className="border-b border-gray-200 last:border-b-0">
+                      <td className="px-4 py-3 text-gray-700">
+                        {exampleSentences[index] || "-"}
+                      </td>
+                      <td className="px-4 py-3 text-gray-700">
+                        {translatedExampleSentences[index] || "-"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

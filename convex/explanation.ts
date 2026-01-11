@@ -3,8 +3,13 @@ import { internal } from "./_generated/api";
 import { ConvexError, v } from "convex/values";
 import { cleanText, slugify } from "./utils/text";
 import { Doc } from "./_generated/dataModel";
-import { dutchExplanationPrompt, translationPrompt } from "./ai/prompts";
-import { getPromptResponse } from "./ai/agents";
+import {
+  dutchExplanationPrompt,
+  exampleSentencePrompt,
+  exampleSentenceTranslationPrompt,
+  translationPrompt,
+} from "./ai/prompts";
+import { getPromptResponse, getStringArrayResponse } from "./ai/agents";
 import { ActionCtx } from "./_generated/server";
 
 export const explain = action({
@@ -58,6 +63,11 @@ export const explain = action({
       ...explanation,
     } as Doc<"explanations">;
 
+    await ctx.runAction(internal.explanation.generateExampleSentences, {
+      query: query,
+      explanationId: id,
+    });
+
     await makeTranslation(ctx, explanationDoc, args.languageCode);
 
     return explanationDoc;
@@ -94,6 +104,51 @@ export const generateExplanation = internalAction({
     });
 
     return;
+  },
+});
+
+export const generateExampleSentences = internalAction({
+  args: {
+    query: v.string(),
+    explanationId: v.id("explanations"),
+  },
+  handler: async (ctx, args): Promise<void> => {
+    const prompt = exampleSentencePrompt(args.query);
+    const exampleSentences = await getStringArrayResponse(prompt);
+    await ctx.runMutation(internal.mutations.addExampleSentences, {
+      explanationId: args.explanationId,
+      exampleSentences: exampleSentences,
+    });
+  },
+});
+
+export const generateTranslatedExampleSentences = internalAction({
+  args: {
+    explanationId: v.id("explanations"),
+    translationId: v.id("translations"),
+    languageCode: v.string(),
+  },
+  handler: async (ctx, args): Promise<void> => {
+    const explanation = await ctx.runQuery(
+      internal.queries.getExplanationById,
+      {
+        explanationId: args.explanationId,
+      }
+    );
+    if (!explanation) {
+      throw new ConvexError("Explanation not found");
+    }
+
+    const translationPrompt = exampleSentenceTranslationPrompt(
+      explanation.title,
+      explanation.exampleSentences,
+      args.languageCode
+    );
+    const translations = await getStringArrayResponse(translationPrompt);
+    await ctx.runMutation(internal.mutations.addTranslatedExampleSentences, {
+      translationId: args.translationId,
+      exampleSentences: translations,
+    });
   },
 });
 
@@ -143,11 +198,27 @@ async function makeTranslation(
     }
   );
 
-  await ctx.scheduler.runAfter(0, internal.explanation.generateTranslation, {
-    translationId: translationId,
-    explanationTitle: explanation.title,
-    languageCode: languageCode,
-  });
+  const p1 = ctx.scheduler.runAfter(
+    0,
+    internal.explanation.generateTranslation,
+    {
+      translationId: translationId,
+      explanationTitle: explanation.title,
+      languageCode: languageCode,
+    }
+  );
+
+  const p2 = ctx.scheduler.runAfter(
+    0,
+    internal.explanation.generateTranslatedExampleSentences,
+    {
+      explanationId: explanation._id,
+      translationId: translationId,
+      languageCode: languageCode,
+    }
+  );
+
+  await Promise.all([p1]);
   return;
 }
 
