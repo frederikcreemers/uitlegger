@@ -3,7 +3,7 @@ import { useQuery, useAction } from "convex/react";
 import { useParams, useNavigate } from "react-router";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
-import { languages, type Language } from "../lib/localizations";
+import { languages, getTranslation, DUTCH_DISCLAIMER, type Language } from "../lib/localizations";
 import NavBar from "../components/NavBar";
 
 const LANGUAGE_STORAGE_KEY = "uitlegger_selected_language";
@@ -153,6 +153,10 @@ export default function ExplanationPage() {
             </div>
           </div>
         )}
+        <div className="mt-8 text-center text-sm text-gray-500 space-y-1">
+          <p>{DUTCH_DISCLAIMER}</p>
+          <p>{getTranslation(urlLanguage, "aiDisclaimer")}</p>
+        </div>
         </div>
       </div>
     </div>

@@ -64,24 +64,39 @@ export const additionalLanguages: Language[] = ["es", "pt", "fa"];
 export const translations: Record<Language, Record<string, string>> = {
   ar: {
     explain: "اشرح",
+    aiDisclaimer:
+      "يتم إنشاء التفسيرات باستخدام الذكاء الاصطناعي. قد تكون هناك أخطاء فيها",
   },
   tr: {
     explain: "açıkla",
+    aiDisclaimer:
+      "Açıklamalar AI kullanılarak oluşturulur. İçlerinde hatalar olabilir",
   },
   en: {
     explain: "explain",
+    aiDisclaimer:
+      "Explanations are generated using AI. There may be mistakes in them",
   },
   es: {
     explain: "explicar",
+    aiDisclaimer:
+      "Las explicaciones se generan usando IA. Puede haber errores en ellas",
   },
   pt: {
     explain: "explicar",
+    aiDisclaimer:
+      "As explicações são geradas usando IA. Pode haver erros nelas",
   },
   fa: {
     explain: "توضیح دهید",
+    aiDisclaimer:
+      "توضیحات با استفاده از هوش مصنوعی تولید می‌شوند. ممکن است اشتباهاتی در آن‌ها باشد",
   },
 };
 
 export function getTranslation(language: Language, key: string): string {
   return translations[language]?.[key] || key;
 }
+
+export const DUTCH_DISCLAIMER =
+  "Uitleg wordt gegenereerd met behulp van AI. Er kunnen fouten in zitten";

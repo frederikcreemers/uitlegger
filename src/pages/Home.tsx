@@ -3,7 +3,7 @@ import { useAction } from "convex/react";
 import { useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 import LanguagePicker from "../components/LanguagePicker";
-import { getTranslation, type Language } from "../lib/localizations";
+import { getTranslation, DUTCH_DISCLAIMER, type Language } from "../lib/localizations";
 
 export default function Home() {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("en");
@@ -57,6 +57,10 @@ export default function Home() {
             </span>
           </button>
         </form>
+        <div className="text-center text-sm text-gray-500 space-y-1">
+          <p>{DUTCH_DISCLAIMER}</p>
+          <p>{getTranslation(selectedLanguage, "aiDisclaimer")}</p>
+        </div>
       </div>
     </div>
   );
