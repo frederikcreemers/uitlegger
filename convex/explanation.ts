@@ -218,7 +218,7 @@ async function makeTranslation(
     }
   );
 
-  await Promise.all([p1]);
+  await Promise.all([p1, p2]);
   return;
 }
 
