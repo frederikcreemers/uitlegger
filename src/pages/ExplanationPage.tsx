@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useQuery, useAction } from "convex/react";
 import { useParams, useNavigate } from "react-router";
 import { Volume2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import {
@@ -24,7 +25,7 @@ function PendingExplanation({
     explanationId,
   });
 
-  return <>{pendingExplanation?.text || ""}</>;
+  return <ReactMarkdown>{pendingExplanation?.text || ""}</ReactMarkdown>;
 }
 
 function PendingTranslation({
@@ -36,7 +37,7 @@ function PendingTranslation({
     translationId,
   });
 
-  return <>{pendingTranslation?.text || ""}</>;
+  return <ReactMarkdown>{pendingTranslation?.text || ""}</ReactMarkdown>;
 }
 
 export default function ExplanationPage() {
@@ -114,13 +115,13 @@ export default function ExplanationPage() {
               <h2 className="text-2xl font-semibold text-gray-800">
                 Nederlands
               </h2>
-              <p className="text-lg text-gray-700 whitespace-pre-wrap">
+              <div className="text-lg text-gray-700 prose prose-lg max-w-none">
                 {explanation.status === "generating" && explanation._id ? (
                   <PendingExplanation explanationId={explanation._id} />
                 ) : (
-                  explanation.explanation
+                  <ReactMarkdown>{explanation.explanation}</ReactMarkdown>
                 )}
-              </p>
+              </div>
             </div>
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold text-gray-800">
@@ -131,13 +132,13 @@ export default function ExplanationPage() {
                   <div className="text-gray-500">Loading translation...</div>
                 </div>
               ) : (
-                <p className="text-lg text-gray-700 whitespace-pre-wrap">
+                <div className="text-lg text-gray-700 prose prose-lg max-w-none">
                   {translation.status === "generating" && translation._id ? (
                     <PendingTranslation translationId={translation._id} />
                   ) : (
-                    translation.explanation
+                    <ReactMarkdown>{translation.explanation}</ReactMarkdown>
                   )}
-                </p>
+                </div>
               )}
             </div>
           </div>

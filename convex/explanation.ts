@@ -10,7 +10,7 @@ import {
   translationPrompt,
 } from "./ai/prompts";
 import { getPromptResponse, getStringArrayResponse } from "./ai/agents";
-import { ActionCtx } from "./_generated/server";
+import type { ActionCtx } from "./_generated/server";
 
 export const explain = action({
   args: {
