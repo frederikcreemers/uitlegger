@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { languages, type Language } from "../lib/localizations";
+import NavBar from "../components/NavBar";
 
 function PendingExplanation({
   explanationId,
@@ -68,8 +69,10 @@ export default function ExplanationPage() {
   const hasExamples = maxExamples > 0;
 
   return (
-    <div className="min-h-screen bg-white px-4 py-12">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-white">
+      <NavBar />
+      <div className="px-4 py-12">
+        <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
           {explanation.title}
         </h1>
@@ -134,6 +137,7 @@ export default function ExplanationPage() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
