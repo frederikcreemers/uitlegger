@@ -46,7 +46,7 @@ export function exampleSentencePrompt(query: string) {
 }
 
 export function exampleSentenceTranslationPrompt(
-  query: string,
+  _query: string,
   sentences: string[],
   languageCode: string
 ) {

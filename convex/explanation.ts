@@ -1,8 +1,8 @@
-import { action, internalAction, internalQuery } from "./_generated/server";
+import { action, internalAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { ConvexError, v } from "convex/values";
 import { cleanText, slugify } from "./utils/text";
-import { Doc } from "./_generated/dataModel";
+import type { Doc } from "./_generated/dataModel";
 import {
   dutchExplanationPrompt,
   exampleSentencePrompt,

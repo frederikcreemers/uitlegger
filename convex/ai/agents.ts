@@ -1,5 +1,5 @@
 import { OpenRouter } from "@openrouter/sdk";
-import { JSONSchemaConfig } from "@openrouter/sdk/models";
+import type { JSONSchemaConfig } from "@openrouter/sdk/models";
 
 const openRouter = new OpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,
