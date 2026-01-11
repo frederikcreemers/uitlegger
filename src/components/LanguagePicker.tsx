@@ -1,6 +1,9 @@
+import { useEffect } from "react";
 import { Select } from "@base-ui/react/select";
 import { ChevronDown } from "lucide-react";
 import { languages, primaryLanguages, additionalLanguages, type Language } from "../lib/localizations";
+
+const LANGUAGE_STORAGE_KEY = "uitlegger_selected_language";
 
 interface LanguagePickerProps {
   selectedLanguage: Language;
@@ -8,6 +11,19 @@ interface LanguagePickerProps {
 }
 
 export default function LanguagePicker({ selectedLanguage, onLanguageChange }: LanguagePickerProps) {
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (storedLanguage && languages.some((lang) => lang.code === storedLanguage)) {
+      onLanguageChange(storedLanguage as Language);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleLanguageChange = (language: Language) => {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    onLanguageChange(language);
+  };
+
   const primaryLangs = languages.filter((lang) => primaryLanguages.includes(lang.code));
   const additionalLangs = languages.filter((lang) => additionalLanguages.includes(lang.code));
 
@@ -20,7 +36,7 @@ export default function LanguagePicker({ selectedLanguage, onLanguageChange }: L
         {primaryLangs.map((lang) => (
           <button
             key={lang.code}
-            onClick={() => onLanguageChange(lang.code)}
+            onClick={() => handleLanguageChange(lang.code)}
             className={`px-6 py-3 rounded-lg font-medium transition-colors ${
               selectedLanguage === lang.code
                 ? "bg-blue-600 text-white"
@@ -35,7 +51,7 @@ export default function LanguagePicker({ selectedLanguage, onLanguageChange }: L
           value={isAdditionalLangSelected ? selectedLanguage : undefined}
           onValueChange={(value) => {
             if (value) {
-              onLanguageChange(value as Language);
+              handleLanguageChange(value as Language);
             }
           }}
         >
