@@ -8,8 +8,6 @@
  * @module
  */
 
-import type * as ai_agents from "../ai/agents.js";
-import type * as ai_prompts from "../ai/prompts.js";
 import type * as explanation from "../explanation.js";
 import type * as mutations from "../mutations.js";
 import type * as queries from "../queries.js";
@@ -22,8 +20,6 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  "ai/agents": typeof ai_agents;
-  "ai/prompts": typeof ai_prompts;
   explanation: typeof explanation;
   mutations: typeof mutations;
   queries: typeof queries;

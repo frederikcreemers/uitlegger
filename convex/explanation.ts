@@ -8,8 +8,8 @@ import {
   exampleSentencePrompt,
   exampleSentenceTranslationPrompt,
   translationPrompt,
-} from "./ai/prompts";
-import { getPromptResponse, getStringArrayResponse } from "./ai/agents";
+} from "../src/ai/prompts";
+import { getPromptResponse, getStringArrayResponse } from "../src/ai/agents";
 import type { ActionCtx } from "./_generated/server";
 
 export const explain = action({

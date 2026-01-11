@@ -1,4 +1,4 @@
-import { languages } from "../../src/lib/localizations";
+import { languages } from "../lib/localizations";
 
 export function dutchExplanationPrompt(query: string) {
   return `
