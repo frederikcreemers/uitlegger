@@ -44,18 +44,6 @@ export const languages: LanguageInfo[] = [
     englishName: "Persian",
     nameInLanguage: "فارسی",
   },
-  {
-    code: "pt",
-    name: "Portugees",
-    englishName: "Portuguese",
-    nameInLanguage: "Português",
-  },
-  {
-    code: "fa",
-    name: "Perzisch",
-    englishName: "Persian",
-    nameInLanguage: "فارسی",
-  },
 ];
 
 export const primaryLanguages: Language[] = ["ar", "tr", "en"];
