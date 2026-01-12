@@ -1,4 +1,4 @@
-export type Language = "ar" | "tr" | "en" | "es" | "pt" | "fa";
+export type Language = "ar" | "tr" | "en" | "es" | "pt" | "fa" | "uk";
 
 export interface LanguageInfo {
   code: Language;
@@ -44,10 +44,16 @@ export const languages: LanguageInfo[] = [
     englishName: "Persian",
     nameInLanguage: "فارسی",
   },
+  {
+    code: "uk",
+    name: "Oekraïens",
+    englishName: "Ukrainian",
+    nameInLanguage: "Українська",
+  },
 ];
 
-export const primaryLanguages: Language[] = ["ar", "tr", "en"];
-export const additionalLanguages: Language[] = ["es", "pt", "fa"];
+export const primaryLanguages: Language[] = ["ar", "tr", "uk"];
+export const additionalLanguages: Language[] = ["es", "pt", "fa", "en"];
 
 export const translations: Record<Language, Record<string, string>> = {
   ar: {
@@ -79,6 +85,11 @@ export const translations: Record<Language, Record<string, string>> = {
     explain: "توضیح دهید",
     aiDisclaimer:
       "توضیحات با استفاده از هوش مصنوعی تولید می‌شوند. ممکن است اشتباهاتی در آن‌ها باشد",
+  },
+  uk: {
+    explain: "пояснити",
+    aiDisclaimer:
+      "Пояснення генеруються за допомогою ШІ. У них можуть бути помилки",
   },
 };
 
