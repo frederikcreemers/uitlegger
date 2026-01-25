@@ -1,4 +1,4 @@
-export type Language = "ar" | "tr" | "en" | "es" | "pt" | "fa" | "uk";
+export type Language = "ar" | "tr" | "en" | "es" | "pt" | "fa" | "uk" | "ps";
 
 export interface LanguageInfo {
   code: Language;
@@ -50,10 +50,16 @@ export const languages: LanguageInfo[] = [
     englishName: "Ukrainian",
     nameInLanguage: "Українська",
   },
+  {
+    code: "ps",
+    name: "Pasjtoe",
+    englishName: "Pashto",
+    nameInLanguage: "پښتو",
+  },
 ];
 
 export const primaryLanguages: Language[] = ["ar", "tr", "uk"];
-export const additionalLanguages: Language[] = ["es", "pt", "fa", "en"];
+export const additionalLanguages: Language[] = ["es", "pt", "fa", "en", "ps"];
 
 export const translations: Record<Language, Record<string, string>> = {
   ar: {
@@ -90,6 +96,11 @@ export const translations: Record<Language, Record<string, string>> = {
     explain: "пояснити",
     aiDisclaimer:
       "Пояснення генеруються за допомогою ШІ. У них можуть бути помилки",
+  },
+  ps: {
+    explain: "تشریح کړئ",
+    aiDisclaimer:
+      "تشریحات د AI په کارولو سره تولید کیږي. په دوی کې تېروتنې شتون لري",
   },
 };
 

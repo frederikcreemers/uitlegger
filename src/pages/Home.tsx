@@ -3,7 +3,11 @@ import { useAction } from "convex/react";
 import { useNavigate } from "react-router";
 import { api } from "../../convex/_generated/api";
 import LanguagePicker from "../components/LanguagePicker";
-import { getTranslation, DUTCH_DISCLAIMER, type Language } from "../lib/localizations";
+import {
+  getTranslation,
+  DUTCH_DISCLAIMER,
+  type Language,
+} from "../lib/localizations";
 
 export default function Home() {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("en");
@@ -29,10 +33,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-2xl space-y-12">
-        <h1 className="text-6xl font-bold text-gray-900 text-center">Uitlegger</h1>
+        <h1 className="text-6xl font-bold text-gray-900 text-center">
+          Uitlegger
+        </h1>
 
         <div className="space-y-4">
-          <label className="text-lg text-gray-700 font-medium">Ik spreek:</label>
+          <label className="text-lg text-gray-700 font-medium">
+            Ik spreek:
+          </label>
           <LanguagePicker
             selectedLanguage={selectedLanguage}
             onLanguageChange={setSelectedLanguage}
@@ -65,4 +73,3 @@ export default function Home() {
     </div>
   );
 }
-
