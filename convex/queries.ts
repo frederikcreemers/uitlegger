@@ -42,7 +42,7 @@ export const getPendingExplanation = query({
     const chunks = await ctx.db
       .query("explanationChunks")
       .withIndex("by_explanation_sequence", (q) =>
-        q.eq("explanationId", args.explanationId)
+        q.eq("explanationId", args.explanationId),
       )
       .collect();
 
@@ -63,7 +63,7 @@ export const getTranslation = internalQuery({
       .withIndex("by_explanation_language", (q) =>
         q
           .eq("explanationId", args.explanationId)
-          .eq("languageCode", args.languageCode)
+          .eq("languageCode", args.languageCode),
       )
       .first();
   },
@@ -89,7 +89,7 @@ export const getTranslationPublic = query({
       .withIndex("by_explanation_language", (q) =>
         q
           .eq("explanationId", explanation._id)
-          .eq("languageCode", args.languageCode)
+          .eq("languageCode", args.languageCode),
       )
       .first();
   },
@@ -103,7 +103,80 @@ export const getPendingTranslation = query({
     const chunks = await ctx.db
       .query("translationChunks")
       .withIndex("by_translation_sequence", (q) =>
-        q.eq("translationId", args.translationId)
+        q.eq("translationId", args.translationId),
+      )
+      .collect();
+
+    return {
+      text: chunks.map((chunk) => chunk.chunk).join(""),
+    };
+  },
+});
+
+export const getConversation = query({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.conversationId);
+  },
+});
+
+export const getMessages = query({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("messages")
+      .withIndex("by_conversation", (q) =>
+        q.eq("conversationId", args.conversationId),
+      )
+      .collect();
+  },
+});
+
+export const getMessagesInternal = internalQuery({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("messages")
+      .withIndex("by_conversation", (q) =>
+        q.eq("conversationId", args.conversationId),
+      )
+      .collect();
+  },
+});
+
+export const getPendingMessageDutch = query({
+  args: {
+    messageId: v.id("messages"),
+  },
+  handler: async (ctx, args) => {
+    const chunks = await ctx.db
+      .query("messageDutchChunks")
+      .withIndex("by_message_sequence", (q) =>
+        q.eq("messageId", args.messageId),
+      )
+      .collect();
+
+    return {
+      text: chunks.map((chunk) => chunk.chunk).join(""),
+    };
+  },
+});
+
+export const getPendingMessageTranslated = query({
+  args: {
+    messageId: v.id("messages"),
+  },
+  handler: async (ctx, args) => {
+    const chunks = await ctx.db
+      .query("messageTranslatedChunks")
+      .withIndex("by_message_sequence", (q) =>
+        q.eq("messageId", args.messageId),
       )
       .collect();
 

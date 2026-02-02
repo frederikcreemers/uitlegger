@@ -19,7 +19,7 @@ export function dutchExplanationPrompt(query: string) {
 export function translationPrompt(query: string, languageCode: string) {
   // get the language name from the language code
   const languageName = languages.find(
-    (language) => language.code === languageCode
+    (language) => language.code === languageCode,
   )?.englishName;
 
   return `
@@ -48,10 +48,10 @@ export function exampleSentencePrompt(query: string) {
 export function exampleSentenceTranslationPrompt(
   _query: string,
   sentences: string[],
-  languageCode: string
+  languageCode: string,
 ) {
   const languageName = languages.find(
-    (language) => language.code === languageCode
+    (language) => language.code === languageCode,
   )?.englishName;
 
   return `
@@ -61,4 +61,44 @@ export function exampleSentenceTranslationPrompt(
 
     Return the translations as a JSON array of strings.
   `;
+}
+
+export function dutchChatPrompt(
+  history: { role: string; content: string }[],
+  newMessage: string,
+) {
+  const historyText = history
+    .map(
+      (m) => `${m.role === "user" ? "Gebruiker" : "Assistent"}: ${m.content}`,
+    )
+    .join("\n\n");
+
+  return `Je bent "de uitlegger", een vriendelijke assistent die mensen helpt bij het leren van Nederlands (Nederlands van België). Je antwoordt altijd in het Nederlands. Gebruik eenvoudige taal. Wees bondig: houd je antwoorden kort en to-the-point, vermijd onnodige uitweidingen. Je mag markdown gebruiken in je antwoorden.
+
+${historyText ? `Eerdere conversatie:\n${historyText}\n\n` : ""}Nieuwe bericht van de gebruiker:
+${newMessage}
+
+Antwoord bondig in het Nederlands (markdown is toegestaan):`;
+}
+
+export function translateToLanguagePrompt(text: string, languageCode: string) {
+  const languageName = languages.find(
+    (lang) => lang.code === languageCode,
+  )?.englishName;
+
+  if (!languageName) {
+    return translateToDutchPrompt(text);
+  }
+
+  return `Translate the following text into ${languageName}. Reply with only the translation, no other text or explanation.
+
+Text to translate:
+${text}`;
+}
+
+export function translateToDutchPrompt(text: string) {
+  return `Translate the following text into Dutch. Reply with only the translation, no other text or explanation.
+
+Text to translate:
+${text}`;
 }
