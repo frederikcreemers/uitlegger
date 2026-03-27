@@ -37,16 +37,6 @@ export default function Home() {
           Uitlegger
         </h1>
 
-        <div className="flex justify-center">
-          <button
-            type="button"
-            onClick={() => navigate(`/praat/${selectedLanguage}`)}
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            Praat met de uitlegger
-          </button>
-        </div>
-
         <div className="space-y-4">
           <label className="text-lg text-gray-700 font-medium">
             Ik spreek:
