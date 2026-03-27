@@ -1,4 +1,13 @@
-export type Language = "ar" | "tr" | "en" | "es" | "pt" | "fa" | "uk" | "ps";
+export type Language =
+  | "ar"
+  | "tr"
+  | "en"
+  | "es"
+  | "pt"
+  | "fa"
+  | "uk"
+  | "ps"
+  | "ro";
 
 export interface LanguageInfo {
   code: Language;
@@ -56,10 +65,23 @@ export const languages: LanguageInfo[] = [
     englishName: "Pashto",
     nameInLanguage: "پښتو",
   },
+  {
+    code: "ro",
+    name: "Roemeens",
+    englishName: "Romanian",
+    nameInLanguage: "Română",
+  },
 ];
 
 export const primaryLanguages: Language[] = ["ar", "tr", "uk"];
-export const additionalLanguages: Language[] = ["es", "pt", "fa", "en", "ps"];
+export const additionalLanguages: Language[] = [
+  "es",
+  "pt",
+  "fa",
+  "en",
+  "ps",
+  "ro",
+];
 
 export const translations: Record<Language, Record<string, string>> = {
   ar: {
@@ -101,6 +123,11 @@ export const translations: Record<Language, Record<string, string>> = {
     explain: "تشریح کړئ",
     aiDisclaimer:
       "تشریحات د AI په کارولو سره تولید کیږي. په دوی کې تېروتنې شتون لري",
+  },
+  ro: {
+    explain: "explică",
+    aiDisclaimer:
+      "Explicațiile sunt generate cu ajutorul IA. Pot conține greșeli",
   },
 };
 
